@@ -26,8 +26,10 @@ class SimonGame:
         utime.sleep(duration)
         speaker.duty_u16(0)
 
-    def flash_led(self):
-        pass
+    def flash_led(self, led, duration):
+        led.on()
+        utime.sleep(duration)
+        led.off()
 
     def play_sequence(self):
         pass
