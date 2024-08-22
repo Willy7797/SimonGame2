@@ -20,8 +20,11 @@ class SimonGame:
         self.player_sequence = []
         self.score = 0
 
-    def play_tone(self):
-        pass
+    def play_tone(self, speaker, tone, duration):
+        speaker.freq(tone)
+        speaker.duty_u16(32768)
+        utime.sleep(duration)
+        speaker.duty_u16(0)
 
     def flash_led(self):
         pass
