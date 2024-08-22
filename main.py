@@ -32,7 +32,10 @@ class SimonGame:
         led.off()
 
     def play_sequence(self):
-        pass
+        for i in self.sequence:
+            self.flash_led(self.led_pins[i], 0.5)
+            self.play_tone(self.speaker_pins[i], self.tones[i], 0.5)
+            utime.sleep(0.2)
 
     def get_player_input(self):
         pass
