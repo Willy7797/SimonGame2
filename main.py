@@ -76,7 +76,9 @@ class SimonGame:
             utime.sleep(1)
    
     def stop_game(self):
-        pass
+        print ("Game stopped. restarting...")
+        self.sequence = []
+        self.score = 0
 
     def run(self):
         pass
