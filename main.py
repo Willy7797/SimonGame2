@@ -38,7 +38,19 @@ class SimonGame:
             utime.sleep(0.2)
 
     def get_player_input(self):
-        pass
+           self.player_sequence = []
+           for _ in range(len(self.sequence)):
+               while True:
+                   for i, button in enumerate(self.button_pins):
+                       if button.value() == 1:
+                           self.flash_led(self.led_pins[i], 0.5)
+                           self.play_tone(self.speaker_pins[i], self.tones[i], 0.5)
+                           self.player_sequence.append(i)
+                           utime.sleep(0.5)
+                           break
+                   else:
+                       continue
+                   break
 
     def start_game(self):
         pass
