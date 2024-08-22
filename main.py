@@ -53,8 +53,28 @@ class SimonGame:
                    break
 
     def start_game(self):
-        pass
+        self.score = 0
+        self.print = []
+        print ("starting new game!")
 
+
+        while True:
+            self.sequence.append(random.randint(0, 3))
+            self.play_sequence()
+            self.get_player_input()
+
+
+            if self.play_sequence != self.sequence:
+                print("Wrong sequence! Game over.")
+                print(f"Your final scre: {self.score}")
+                break
+            else:
+                print("Correct Sequence!")
+                self.score += 1
+
+
+            utime.sleep(1)
+   
     def stop_game(self):
         pass
 
