@@ -81,7 +81,18 @@ class SimonGame:
         self.score = 0
 
     def run(self):
-        pass
+        try:
+            while True:
+                if self.start_switch.value() == 1:
+                    self.start_game()
+                elif self.stop_switch.value() == 1:
+                    self.stop_game()
+
+
+                utime.sleep(0.1)
+        except KeyboardInterrupt:
+            self.cleanup()
+
     def cleanup(self):
         pass
 
