@@ -94,7 +94,11 @@ class SimonGame:
             self.cleanup()
 
     def cleanup(self):
-        pass
-
+        for led in self.led_pins:
+            led.off()
+        for speaker in self.speaker_pins:
+            speaker.deinit()
+        print("Game exited.")
+        
 game = SimonGame()
 game.run()
