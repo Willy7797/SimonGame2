@@ -9,11 +9,10 @@ class SimonGame:
         self.button_pins = [Pin(2, Pin.IN, Pin.PULL_DOWN), Pin(3, Pin.IN, Pin.PULL_DOWN), Pin(4, Pin.IN, Pin.PULL_DOWN), Pin(5, Pin.IN, Pin.PULL_DOWN)]
         self.speaker_pins = [PWM(Pin(18)), PWM(Pin(19)), PWM(Pin(20)), PWM(Pin(21))]
         self.start_switch = Pin(14, Pin.IN, Pin.PULL_DOWN)
-        self.stop_switch = Pin(15, Pin.IN, Pin.PULL_DOWN)
+        self.stop_switch = Pin(15, Pin.IN, Pin.PULL_DOWN) 
 
         #Frequencies for the speakers corresponding to each LED
         self.tones = [440, 550, 660, 770]
-
 
         #Game state
         self.sequence = []
@@ -57,21 +56,18 @@ class SimonGame:
         self.print = []
         print ("starting new game!")
 
-
         while True:
             self.sequence.append(random.randint(0, 3))
             self.play_sequence()
             self.get_player_input()
-
-
-            if self.play_sequence != self.sequence:
+            
+            if self.player_sequence != self.sequence:
                 print("Wrong sequence! Game over.")
                 print(f"Your final scre: {self.score}")
                 break
             else:
                 print("Correct Sequence!")
                 self.score += 1
-
 
             utime.sleep(1)
    
@@ -87,7 +83,8 @@ class SimonGame:
                     self.start_game()
                 elif self.stop_switch.value() == 1:
                     self.stop_game()
-
+                self.sequence = []
+                self.score = 0
 
                 utime.sleep(0.1)
         except KeyboardInterrupt:
