@@ -18,6 +18,7 @@ class SimonGame:
         self.sequence = []
         self.player_sequence = []
         self.score = 0
+        self.game_over = False  # New flag to indicate game over state
 
     def play_tone(self, speaker, tone, duration):
         speaker.freq(tone)
@@ -51,35 +52,48 @@ class SimonGame:
                        continue
                    break
 
+    def all_leds_on(self):
+        for led in self.led_pins:
+            led.on()
+
+    def all_leds_off(self):
+        for led in self.led_pins:
+            led.off()
+
     def start_game(self):
         self.score = 0
         self.print = []
+        self.game_over = False  # Reset game over state
         print ("starting new game!")
 
-        while True:
+        while not self.game_over:
             self.sequence.append(random.randint(0, 3))
             self.play_sequence()
             self.get_player_input()
             
             if self.player_sequence != self.sequence:
                 print("Wrong sequence! Game over.")
-                print(f"Your final scre: {self.score}")
+                print(f"Your final score: {self.score}")
+                self.game_over = True
+                self.all_leds_on()  # Turn on all LEDs when the game is over
                 break
             else:
                 print("Correct Sequence!")
                 self.score += 1
 
-            utime.sleep(1)
+            utime.sleep(1) # Delay before next round
    
     def stop_game(self):
         print ("Game stopped. restarting...")
         self.sequence = []
         self.score = 0
+        self.game_over = False  # Reset game over state
+        self.all_leds_off()
 
     def run(self):
         try:
             while True:
-                if self.start_switch.value() == 1:
+                if self.start_switch.value() == 1 and not self.game_over:
                     self.start_game()
                 elif self.stop_switch.value() == 1:
                     self.stop_game()
@@ -91,8 +105,7 @@ class SimonGame:
             self.cleanup()
 
     def cleanup(self):
-        for led in self.led_pins:
-            led.off()
+        self.all_leds_off() 
         for speaker in self.speaker_pins:
             speaker.deinit()
         print("Game exited.")
