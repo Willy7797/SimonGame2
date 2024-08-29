@@ -36,6 +36,18 @@ class SimonGame:
         utime.sleep(duration)
         led.off()
 
+    #play a low pitched tone when you fail the game
+    def play_fail_tone(self):
+        fail_tone = 100
+        for speaker in self.speaker_pins:
+            speaker.freq(fail_tone)
+            speaker.duty_u16(32768)
+
+    #stops the tone when you restart
+    def stop_fail_tone(self):
+        for speaker in self.speaker_pins:
+            speaker.duty_u16(0)
+
     #develop a random sequence
     def play_sequence(self):
         for i in self.sequence:
@@ -87,6 +99,7 @@ class SimonGame:
                 print(f"Your final scre: {self.score}")
                 self.game_over = True
                 self.all_leds_on()  # Turn on all LEDs when the game is over
+                self.play_fail_tone() #plays the low pitched tone
                 break
             else:
                 print("Correct Sequence!") #correct sequence, proceed
@@ -100,7 +113,8 @@ class SimonGame:
         self.sequence = []
         self.score = 0
         self.game_over = False  # Reset game over state
-        self.all_leds_off()
+        self.all_leds_off() #turns off LED
+        self.stop_fail_tone() #Turns off tone
 
     #run and stop game
     def run(self):
