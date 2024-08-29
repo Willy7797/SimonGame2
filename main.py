@@ -100,6 +100,7 @@ class SimonGame:
         self.sequence = []
         self.score = 0
         self.game_over = False  # Reset game over state
+        self.all_leds_off()
 
     #run and stop game
     def run(self):
