@@ -14,7 +14,7 @@ class SimonGame:
         self.start_switch = Pin(14, Pin.IN, Pin.PULL_DOWN)
         self.stop_switch = Pin(15, Pin.IN, Pin.PULL_DOWN) 
 
-        #Frequencies for the speakers
+        #Frequencies for the piezos
         self.tones = [440, 550, 660, 770]
 
         #Game state
@@ -23,7 +23,7 @@ class SimonGame:
         self.score = 0
         self.game_over = False  #indicate game over state
 
-    #Pizo activation for sequence
+    #Piezo activation for sequence
     def play_tone(self, speaker, tone, duration):
         speaker.freq(tone)
         speaker.duty_u16(32768)
@@ -36,7 +36,7 @@ class SimonGame:
         utime.sleep(duration)
         led.off()
 
-    #play a low pitched tone when you fail the game
+    #play a low pitched tone when you fail the game (will play until reset button pushed )
     def play_fail_tone(self):
         fail_tone = 100
         for speaker in self.speaker_pins:
@@ -48,7 +48,7 @@ class SimonGame:
         for speaker in self.speaker_pins:
             speaker.duty_u16(0)
 
-    #develop a random sequence
+    #develop a random sequence of LEDs
     def play_sequence(self):
         for i in self.sequence:
             self.flash_led(self.led_pins[i], 0.5)
@@ -85,7 +85,7 @@ class SimonGame:
     def start_game(self):
         self.score = 0
         self.print = []
-        self.game_over = False  # Reset game over state
+        self.game_over = False  # Resets game over state
         print ("starting new game!")
 
         while not self.game_over:
@@ -96,10 +96,10 @@ class SimonGame:
             #incorect sequence - lose screen
             if self.player_sequence != self.sequence:
                 print("Wrong sequence! Game over.")
-                print(f"Your final scre: {self.score}")
+                print(f"Your final score: {self.score}")
                 self.game_over = True
-                self.all_leds_on()  # Turn on all LEDs when the game is over
-                self.play_fail_tone() #plays the low pitched tone
+                self.all_leds_on()  # Turn on all LEDs when the game is lost
+                self.play_fail_tone() # plays the low pitched tone to indicate loss of game 
                 break
             else:
                 print("Correct Sequence!") #correct sequence, proceed
@@ -112,7 +112,7 @@ class SimonGame:
         print ("Game stopped. restarting...")
         self.sequence = []
         self.score = 0
-        self.game_over = False  # Reset game over state
+        self.game_over = False  # Resets game over state
         self.all_leds_off() #turns off LED
         self.stop_fail_tone() #Turns off tone
 
